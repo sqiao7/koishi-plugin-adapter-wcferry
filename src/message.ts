@@ -1,12 +1,26 @@
-import { Dict, Element, MessageEncoder } from "koishi";
+import { Context, Dict, Element, MessageEncoder } from "koishi";
+import { WcFerryBot } from "./bot";
+import { Config } from "./config";
 
-export class WcFerryMessageEncoder extends MessageEncoder {
+export class WcFerryMessageEncoder<C extends Context> extends MessageEncoder<C, WcFerryBot<C, Config>> {
   private payload: Dict;
 
   // 发送缓冲区内的消息
   async flush(): Promise<void> {
     if (this.payload.text) {
       this.payload.text = this.payload.text.trimStart().trimEnd();
+      if (this.payload.at) {
+        const {data: atUser} = await this.bot.internal.getDBContactInfo(this.payload.at);
+        this.payload.text = `@${atUser?.NickName} ${this.payload.text}`;
+      }
+    }
+
+    if (this.payload.img) {
+      await this.bot.internal.sendImage(this.payload.img, this.channelId)
+    }
+
+    if (this.payload.file) {
+      await this.bot.internal.sendImage(this.payload.file, this.channelId)
     }
   }
 
@@ -28,6 +42,10 @@ export class WcFerryMessageEncoder extends MessageEncoder {
 
     if (type === "img" || type === "image") {
       this.payload.img = attrs.src;
+    }
+
+    if (type === 'at') {
+      this.payload.at = attrs.id;
     }
 
     if (type === "p") {

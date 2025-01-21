@@ -1,7 +1,7 @@
 {
   "name": "@sqiao7/koishi-plugin-adapter-wcferry",
   "description": "a koishi adapter for WechatFerry.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "contributors": [
     "sqiao7 <teekimo@outlook.com>"
   ],

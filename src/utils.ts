@@ -12,7 +12,7 @@ export async function adaptSession<C extends Context>(bot: WcFerryBot<C, Config>
   session.timestamp = body.ts
 
   session.userId = body.sender
-  const senderContact = await bot.internal.getDBContactInfo(body.sender)
+  const {data: senderContact} = await bot.internal.getDBContactInfo(body.sender)
   session.username = senderContact?.NickName
   session.user.$merge(senderContact)
 

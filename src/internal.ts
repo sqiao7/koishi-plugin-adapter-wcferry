@@ -1,5 +1,5 @@
 import { Quester } from "koishi";
-import { DBContactInfo, DBSessionInfo } from "./types";
+import { DBContactInfo, DBSessionInfo, Response } from "./types";
 
 export class Internal {
   constructor(private http: Quester) {}
@@ -206,7 +206,7 @@ export class Internal {
    * 获取数据库用户信息
    */
   async getDBContactInfo(wxid: string) {
-    return await this.execSql("MicroMsg.db", `SELECT * FROM User WHERE UserName = '${wxid}'`) as DBContactInfo | null;
+    return await this.execSql("MicroMsg.db", `SELECT * FROM User WHERE UserName = '${wxid}'`) as Response<DBContactInfo> | null;
   }
 
 
@@ -214,7 +214,7 @@ export class Internal {
    * 获取数据库用户信息
    */
   async getDBSessionInfo(wxid: string) {
-    return await this.execSql("MicroMsg.db", `SELECT * FROM Session WHERE strUsrName = '${wxid}'`) as DBSessionInfo | null;
+    return await this.execSql("MicroMsg.db", `SELECT * FROM Session WHERE strUsrName = '${wxid}'`) as Response<DBSessionInfo> | null;
   }
 
 

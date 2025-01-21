@@ -156,6 +156,12 @@ export interface RequestBody {
   thumb?: string;
   dir?: string;
 }
+
+export type Response<T> = {
+  status: number;
+  error: string | null;
+  data?: T;
+}
 /**
  * 通用返回结构
  */

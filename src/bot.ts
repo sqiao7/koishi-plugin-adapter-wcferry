@@ -14,7 +14,7 @@ export class WcFerryBot<C extends Context, T extends Config> extends Bot<C, T>{
 
   constructor(ctx: C, config: T) {
     super(ctx, config)
-
+    this.platform = "wechat"
     this.logger = ctx.logger('wcferry')
     this.http = ctx.http.extend({headers: {"Content-Type": "application/json"}}).extend(config)
     this.internal = new Internal(this.http)
